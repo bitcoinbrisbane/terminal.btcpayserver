@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
 import { Button, Col, Container, Row } from 'react-bootstrap';
-import TerminalButton from './components/TerminalButton';
 
 import axios from "axios";
 
@@ -20,10 +19,11 @@ function App() {
   let total = value.total;
   let coin = value.coin;
 
-
   const handlePress = (e) => {
     if (value.total === "0") {
       setValue({total: e });
+    } else if (value.total === "clear") {
+      setValue({total: "0" });
     } else {
       setValue({total: total + e });
     }
@@ -60,6 +60,7 @@ function App() {
       .then(function (response) {
           //handle success
           console.log(response);
+          const invoiceId = response.data.data.id;
           //return(response);
       })
       .catch(function (response) {
@@ -87,13 +88,13 @@ function App() {
           <br></br>
           <Row>
             <Col>
-            <Button onClick={ e => handlePress("1")} variant="primary" block>1</Button>
+              <Button onClick={ e => handlePress("7")} variant="primary" block>7</Button>
             </Col>
             <Col>
-              <Button onClick={ e => handlePress("2")} variant="primary" block>2</Button>
+              <Button onClick={ e => handlePress("8")} variant="primary" block>8</Button>
             </Col>
             <Col>
-              <Button onClick={ e => handlePress("3")} variant="primary" block>3</Button>
+              <Button onClick={ e => handlePress("9")} variant="primary" block>9</Button>
             </Col>
           </Row>
           <br></br>
@@ -111,13 +112,13 @@ function App() {
           <br></br>
           <Row>
             <Col>
-              <Button onClick={ e => handlePress("7")} variant="primary" block>7</Button>
+            <Button onClick={ e => handlePress("1")} variant="primary" block>1</Button>
             </Col>
             <Col>
-              <Button onClick={ e => handlePress("8")} variant="primary" block>8</Button>
+              <Button onClick={ e => handlePress("2")} variant="primary" block>2</Button>
             </Col>
             <Col>
-              <Button onClick={ e => handlePress("9")} variant="primary" block>9</Button>
+              <Button onClick={ e => handlePress("3")} variant="primary" block>3</Button>
             </Col>
           </Row>
           <br></br>
@@ -129,7 +130,7 @@ function App() {
               <Button onClick={ e => handlePress(".")} variant="primary" block>.</Button>
             </Col>
             <Col>
-              <Button onClick={ e => handlePress("Clear")} variant="primary" block>CLEAR</Button>
+              <Button onClick={ e => handlePress("clear")} variant="primary" block>CLEAR</Button>
             </Col>
           </Row>
           <br></br>
@@ -143,7 +144,6 @@ function App() {
         </Container>
       </header>
 
-
       <form method="POST" action="https://payments.bitcoinbrisbane.com.au/api/v1/invoices" className="btcpay-form btcpay-form--block">
         <input type="hidden" name="storeId" value="J6kKcRQmyREYhBvhid9NvrgcqQksxZTTHtUANkKTRLqb" />
         <input type="hidden" name="checkoutDesc" value="Order" />
@@ -151,7 +151,6 @@ function App() {
         <input type="hidden" name="currency" value="AUD" />
         <input type="image" className="submit" name="submit" src="https://payments.bitcoinbrisbane.com.au/img/paybutton/pay.svg" alt="Pay with BtcPay, Self-Hosted Bitcoin Payment Processor"/>
       </form>
-
     </div>
   );
 }
