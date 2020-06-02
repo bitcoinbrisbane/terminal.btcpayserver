@@ -10,6 +10,7 @@ function App() {
     total: "0",
     coin: "btc",
     show: false,
+    cryptoTotal: 0
   });
 
   const coins = [
@@ -21,18 +22,31 @@ function App() {
   let total = value.total;
   let coin = value.coin;
 
+  let fiatTotal = 0.0;
+  let cryptoTotal = value.cryptoTotal;
+
+  const getRate = (coin, fiat) => {
+    return 15000.0;
+  } 
+
   const handlePress = (e) => {
     console.log(e);
 
     if (e === "clear") {
       setValue({ total: "0" });
     } else {
+
+      fiatTotal = fiatTotal * 10;
+      fiatTotal += Number(e);
+
       if (value.total === "0") {
         setValue({ total: e });
       } else {
         setValue({ total: total + e });
       }
     }
+
+    //setValue({ cryptoTotal: getRate(fiatTotal, "AUD")});
   };
 
   const handleSubmit = (e) => {
@@ -81,7 +95,7 @@ function App() {
         <h1>BTC Pay Terminal</h1>
 
         <h2>
-          Total: ${total} / 0.0000000 {coin}{" "}
+          Total: ${total} / {cryptoTotal} {coin}{" "}
         </h2>
 
         <Container fluid>
