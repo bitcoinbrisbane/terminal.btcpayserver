@@ -1,149 +1,186 @@
-import React, { useState } from 'react';
-import './App.css';
-import { Button, Col, Container, Row, Modal } from 'react-bootstrap';
+import React, { useState } from "react";
+import "./App.css";
+import { Button, Col, Container, Row, Modal } from "react-bootstrap";
 
 import axios from "axios";
-
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
-
-  const [value, setValue, show] = useState({ total : "0", coin: "btc", show: false });
+  const [value, setValue, show] = useState({
+    total: "0",
+    coin: "btc",
+    show: false,
+  });
 
   const coins = [
     {
-      "symbol": "btc"
-    }
-  ]
+      symbol: "btc",
+    },
+  ];
 
   let total = value.total;
   let coin = value.coin;
 
   const handlePress = (e) => {
-
     console.log(e);
 
-    if (value.total === "0") {
-      setValue({total: e });
-    } else if (value.total === "clear") {
-      setValue({total: "0" });
+    if (e === "clear") {
+      setValue({ total: "0" });
     } else {
-      setValue({total: total + e });
+      if (value.total === "0") {
+        setValue({ total: e });
+      } else {
+        setValue({ total: total + e });
+      }
     }
-  }
+  };
 
   const handleSubmit = (e) => {
-
-    console.log("**")
-
-    // //Authorization: Basic MFVPUVY3TWlMUFFwWWlIRUkwN1Y3UlFVbEVSeTdWTWluVVcwa0RVSWRJTA==
+    //Authorization: Basic MFVPUVY3TWlMUFFwWWlIRUkwN1Y3UlFVbEVSeTdWTWluVVcwa0RVSWRJTA==
     const basicAuth = process.env.REACT_APP_AUTH;
     const storeID = process.env.REACT_APP_STORE_ID;
     const price = Number(value.total);
 
     const invoice = {
-      "price": 1, //price
-      "currency": "AUD",
-      "orderId": "1234",
-      "itemDesc": "POS"
-    }
+      price: 1, //price
+      currency: "AUD",
+      orderId: "1234",
+      itemDesc: "POS",
+    };
 
-    
     const formData = new FormData();
-    formData.set('storeId', storeID);
-    formData.set('price', price);
-    formData.set('currency', "AUD");
+    formData.set("storeId", storeID);
+    formData.set("price", price);
+    formData.set("currency", "AUD");
 
     axios({
-      method: 'POST',
-      url: 'https://payments.bitcoinbrisbane.com.au/api/v1/invoices',
-      data: formData
-      // headers: { 
+      method: "POST",
+      url: "https://payments.bitcoinbrisbane.com.au/api/v1/invoices",
+      data: formData,
+      // headers: {
       //   'Content-Type': 'multipart/form-data',
       //   'Authorization Basic': + basicAuth
       // }
-      })
+    })
       .then(function (response) {
-          //handle success
-          console.log(response);
-          const invoiceId = response.data.id;
-          setValue({ invoiceId: invoiceId, show: true })
+        //handle success
+        console.log(response);
+        const invoiceId = response.data.id;
+        setValue({ invoiceId: invoiceId, show: true });
       })
       .catch(function (response) {
-          //handle error
-          console.log(response);
-          setValue({ show: true })
-    });
-  }
+        //handle error
+        console.log(response);
+        setValue({ show: true });
+      });
+  };
 
   return (
     <div className="App">
       <header className="App-header">
         <h1>BTC Pay Terminal</h1>
 
-        <h2>Total: ${ total } / 0.0000000 {coin} </h2>
+        <h2>
+          Total: ${total} / 0.0000000 {coin}{" "}
+        </h2>
 
         <Container fluid>
           <Row>
-            {coins.map(coin => (
+            {coins.map((coin) => (
               <Col key={coin.symbol}>
-                <Button onClick={ e => handlePress("2")} variant="info" block>{coin.symbol}</Button>
+                <Button onClick={(e) => handlePress("2")} variant="info" block>
+                  {coin.symbol}
+                </Button>
               </Col>
             ))}
           </Row>
           <br></br>
           <Row>
             <Col>
-              <Button onClick={ e => handlePress("7")} variant="primary" block>7</Button>
+              <Button onClick={(e) => handlePress("7")} variant="primary" block>
+                7
+              </Button>
             </Col>
             <Col>
-              <Button onClick={ e => handlePress("8")} variant="primary" block>8</Button>
+              <Button onClick={(e) => handlePress("8")} variant="primary" block>
+                8
+              </Button>
             </Col>
             <Col>
-              <Button onClick={ e => handlePress("9")} variant="primary" block>9</Button>
-            </Col>
-          </Row>
-          <br></br>
-          <Row>
-            <Col>
-              <Button onClick={ e => handlePress("4")} variant="primary" block>4</Button>
-            </Col>
-            <Col>
-              <Button onClick={ e => handlePress("5")} variant="primary" block>5</Button>
-            </Col>
-            <Col>
-              <Button onClick={ e => handlePress("6")} variant="primary" block>6</Button>
+              <Button onClick={(e) => handlePress("9")} variant="primary" block>
+                9
+              </Button>
             </Col>
           </Row>
           <br></br>
           <Row>
             <Col>
-              <Button onClick={ e => handlePress("1")} variant="primary" block>1</Button>
+              <Button onClick={(e) => handlePress("4")} variant="primary" block>
+                4
+              </Button>
             </Col>
             <Col>
-              <Button onClick={ e => handlePress("2")} variant="primary" block>2</Button>
+              <Button onClick={(e) => handlePress("5")} variant="primary" block>
+                5
+              </Button>
             </Col>
             <Col>
-              <Button onClick={ e => handlePress("3")} variant="primary" block>3</Button>
+              <Button onClick={(e) => handlePress("6")} variant="primary" block>
+                6
+              </Button>
             </Col>
           </Row>
           <br></br>
           <Row>
             <Col>
-              <Button onClick={ e => handlePress("0")} variant="primary" block>0</Button>
+              <Button onClick={(e) => handlePress("1")} variant="primary" block>
+                1
+              </Button>
             </Col>
             <Col>
-              <Button onClick={ e => handlePress(".")} variant="primary" block>.</Button>
+              <Button onClick={(e) => handlePress("2")} variant="primary" block>
+                2
+              </Button>
             </Col>
             <Col>
-              <Button onClick={ e => handlePress("clear")} variant="primary" block>CLEAR</Button>
+              <Button onClick={(e) => handlePress("3")} variant="primary" block>
+                3
+              </Button>
+            </Col>
+          </Row>
+          <br></br>
+          <Row>
+            <Col>
+              <Button onClick={(e) => handlePress("0")} variant="primary" block>
+                0
+              </Button>
+            </Col>
+            <Col>
+              <Button onClick={(e) => handlePress(".")} variant="primary" block>
+                .
+              </Button>
+            </Col>
+            <Col>
+              <Button
+                onClick={(e) => handlePress("clear")}
+                variant="primary"
+                block
+              >
+                CLEAR
+              </Button>
             </Col>
           </Row>
           <br></br>
           <Row>
             <Col></Col>
             <Col>
-              <Button onClick={ e => handleSubmit("buy")} variant="success" block>BUY</Button>
+              <Button
+                onClick={(e) => handleSubmit("buy")}
+                variant="success"
+                block
+              >
+                BUY
+              </Button>
             </Col>
             <Col></Col>
           </Row>
