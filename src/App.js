@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 import "./App.css";
 import { Button, Col, Container, Row, Modal } from "react-bootstrap";
+import { format as format$ } from "currency-formatter";
 
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   const [value, setValue, show] = useState({
-    total: "0",
+    total: 0,
     coin: "btc",
     show: false,
-    cryptoTotal: 0
+    cryptoTotal: 0,
   });
 
   const coins = [
@@ -22,31 +23,39 @@ function App() {
   let total = value.total;
   let coin = value.coin;
 
-  let fiatTotal = 0.0;
+  //let fiatTotal = 0.0;
   let cryptoTotal = value.cryptoTotal;
 
   const getRate = (coin, fiat) => {
     return 15000.0;
-  } 
+  };
+
+  const handleClear = (e) => {
+    setValue({ total: 0 });
+  };
 
   const handlePress = (e) => {
-    console.log(e);
+    //console.log(Number(e));
+    //fiatTotal = fiatTotal * 10;
+    total = total * 10;
+    total += e;
 
-    if (e === "clear") {
-      setValue({ total: "0" });
-    } else {
+    console.log(total);
+    setValue({total: total});
 
-      fiatTotal = fiatTotal * 10;
-      fiatTotal += Number(e);
+    const cTotal = total / 15000;
+    console.log(cTotal);
 
-      if (value.total === "0") {
-        setValue({ total: e });
-      } else {
-        setValue({ total: total + e });
-      }
-    }
+    // if (value.total === 0) {
+    //   setValue({ total: e });
+    // } else {
+    //   setValue({ total: total + e });
+    // }
 
-    //setValue({ cryptoTotal: getRate(fiatTotal, "AUD")});
+    //fiatTotal = Number(total);
+    
+
+    //setValue({cryptoTotal: cTotal});
   };
 
   const handleSubmit = (e) => {
@@ -56,7 +65,7 @@ function App() {
     const price = Number(value.total);
 
     const invoice = {
-      price: 1, //price
+      price: 0, //price
       currency: "AUD",
       orderId: "1234",
       itemDesc: "POS",
@@ -95,14 +104,14 @@ function App() {
         <h1>BTC Pay Terminal</h1>
 
         <h2>
-          Total: ${total} / {cryptoTotal} {coin}{" "}
+          Total: {total} / {cryptoTotal} {coin}{" "}
         </h2>
 
         <Container fluid>
           <Row>
             {coins.map((coin) => (
               <Col key={coin.symbol}>
-                <Button onClick={(e) => handlePress("2")} variant="info" block>
+                <Button onClick={(e) => handlePress(2)} variant="info" block>
                   {coin.symbol}
                 </Button>
               </Col>
@@ -111,17 +120,17 @@ function App() {
           <br></br>
           <Row>
             <Col>
-              <Button onClick={(e) => handlePress("7")} variant="primary" block>
+              <Button onClick={(e) => handlePress(7)} variant="primary" block>
                 7
               </Button>
             </Col>
             <Col>
-              <Button onClick={(e) => handlePress("8")} variant="primary" block>
+              <Button onClick={(e) => handlePress(8)} variant="primary" block>
                 8
               </Button>
             </Col>
             <Col>
-              <Button onClick={(e) => handlePress("9")} variant="primary" block>
+              <Button onClick={(e) => handlePress(9)} variant="primary" block>
                 9
               </Button>
             </Col>
@@ -129,17 +138,17 @@ function App() {
           <br></br>
           <Row>
             <Col>
-              <Button onClick={(e) => handlePress("4")} variant="primary" block>
+              <Button onClick={(e) => handlePress(4)} variant="primary" block>
                 4
               </Button>
             </Col>
             <Col>
-              <Button onClick={(e) => handlePress("5")} variant="primary" block>
+              <Button onClick={(e) => handlePress(5)} variant="primary" block>
                 5
               </Button>
             </Col>
             <Col>
-              <Button onClick={(e) => handlePress("6")} variant="primary" block>
+              <Button onClick={(e) => handlePress(6)} variant="primary" block>
                 6
               </Button>
             </Col>
@@ -147,17 +156,17 @@ function App() {
           <br></br>
           <Row>
             <Col>
-              <Button onClick={(e) => handlePress("1")} variant="primary" block>
+              <Button onClick={(e) => handlePress(1)} variant="primary" block>
                 1
               </Button>
             </Col>
             <Col>
-              <Button onClick={(e) => handlePress("2")} variant="primary" block>
+              <Button onClick={(e) => handlePress(2)} variant="primary" block>
                 2
               </Button>
             </Col>
             <Col>
-              <Button onClick={(e) => handlePress("3")} variant="primary" block>
+              <Button onClick={(e) => handlePress(3)} variant="primary" block>
                 3
               </Button>
             </Col>
@@ -165,12 +174,12 @@ function App() {
           <br></br>
           <Row>
             <Col>
-              <Button onClick={(e) => handlePress("0")} variant="primary" block>
+              <Button onClick={(e) => handlePress(0)} variant="primary" block>
                 0
               </Button>
             </Col>
             <Col>
-              <Button onClick={(e) => handlePress(".")} variant="primary" block>
+              <Button onClick={(e) => handleClear()} variant="primary" block>
                 .
               </Button>
             </Col>
