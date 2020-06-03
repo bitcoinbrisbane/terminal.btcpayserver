@@ -27,6 +27,7 @@ function App() {
   let cryptoTotal = value.cryptoTotal;
 
   const getRate = (coin, fiat) => {
+    //to call to exchange rate
     return 15000.0;
   };
 
@@ -35,27 +36,16 @@ function App() {
   };
 
   const handlePress = (e) => {
-    //console.log(Number(e));
-    //fiatTotal = fiatTotal * 10;
     total = total * 10;
     total += e;
 
     console.log(total);
-    setValue({total: total});
 
-    const cTotal = total / 15000;
-    console.log(cTotal);
+    const rate = getRate(coin, "aud");
+    const cryptoTotal = total / rate;
+    console.log(cryptoTotal);
 
-    // if (value.total === 0) {
-    //   setValue({ total: e });
-    // } else {
-    //   setValue({ total: total + e });
-    // }
-
-    //fiatTotal = Number(total);
-    
-
-    //setValue({cryptoTotal: cTotal});
+    setValue({ total: total, cryptoTotal: cryptoTotal });
   };
 
   const handleSubmit = (e) => {
@@ -210,12 +200,12 @@ function App() {
         </Container>
       </header>
 
-      {/* <Modal show={show}>
+      <Modal show={show}>
         <Modal.Header>
-            <Modal.Title>Pay</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
-      </Modal> */}
+          <Modal.Title>Pay</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+      </Modal>
 
       {/* <form method="POST" action="https://payments.bitcoinbrisbane.com.au/api/v1/invoices" className="btcpay-form btcpay-form--block">
         <input type="hidden" name="storeId" value="J6kKcRQmyREYhBvhid9NvrgcqQksxZTTHtUANkKTRLqb" />
