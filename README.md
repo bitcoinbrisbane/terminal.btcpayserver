@@ -10,6 +10,7 @@ The work flow is generally:
 * The total is calcualted in the local fiat currency
 * The equvalate amount is then entered into smartphone or tablet crypto wallet for crypto payments.
 
+![](Screenshot.png)
 
 ## Settings
 
