@@ -55,7 +55,7 @@ function App() {
     const price = Number(value.total);
 
     const invoice = {
-      price: 0, //price
+      price: 10, //price
       currency: "AUD",
       orderId: "1234",
       itemDesc: "POS",
@@ -68,7 +68,7 @@ function App() {
 
     axios({
       method: "POST",
-      url: "https://payments.bitcoinbrisbane.com.au/api/v1/invoices",
+      url: "https://payments.bitcoinbrisbane.com.au/invoices",
       data: formData,
       // headers: {
       //   'Content-Type': 'multipart/form-data',
